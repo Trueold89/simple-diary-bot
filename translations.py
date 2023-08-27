@@ -5,8 +5,8 @@ from env import LANG as set
 
 # Languages
 
-## Tuple of languages
-languages = ('ENG', 'RU')
+## List of languages
+languages = ['ENG', 'RU']
 
 # English translation (Default)
 ENG = {
@@ -26,9 +26,27 @@ ENG = {
             }
         }
 
+# Russian translation
+RU = {
+        "botpy": {"today": "Сегодня", "tomorrow": "Завтра"},
+        "messagespy": {
+            "empty": "Сегодня нет занятий",
+            "notexist": "День {} не найден в вашем дневнике",
+            "deny": "Этот бот запривачен, гнида, блять",
+            "welcome": "Добро пожаловать, {}\n\nЧтобы просмотреть ваше расписание, воспользуйтесь меню ниже или отправьте номер дня\n\n(Понедельник - 1, Вторник - 2, и т.д.)"
+            },
+        "createpy": {
+            "add": "Добавить расписание на {} (y/n): ",
+            "inval": "Неверный ввод",
+            "number": "Введите число занятий на {}: ",
+            "lesson": "Введите занятие номер {}: ",
+            "days": {0: "Понедельник", 1: "Вторник", 2: "Среда", 3: "Четверг", 4: "Пятница", 5: "Суббота", 6: "Воскресенье" }
+            }
+        }
+
 # Set bot language
 for i in languages:
     if i == set:
-        LANG = i
+        LANG = locals()[i]
     else:
         LANG = ENG

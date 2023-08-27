@@ -5,7 +5,7 @@ import datetime
 import pickle
 from env import USERS
 from create import dict_dir, file
-from translations import ENG as translate
+from translations import LANG as translate
 lang = translate.get("messagespy")
 
 # Load diary

@@ -3,7 +3,7 @@
 # Modules
 import pickle
 import os
-from translations import ENG as translate
+from translations import LANG as translate
 lang = translate.get("createpy")
 
 # Vars
