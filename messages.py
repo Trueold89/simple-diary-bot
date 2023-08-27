@@ -3,8 +3,10 @@
 # Modules
 import datetime
 import pickle
-from env import users
+from env import USERS
 from create import dict_dir, file
+from translations import ENG as translate
+lang = translate.get("messagespy")
 
 # Load diary
 with open(f"{dict_dir}/{file}", "rb") as save:
@@ -14,14 +16,15 @@ with open(f"{dict_dir}/{file}", "rb") as save:
 
 ##Authorize
 def auth(id):
-    if str(id) in users:
+    if str(id) in USERS:
         return True
 
 def welcome(tid, user):
     if auth(tid):
-        return f"Welcome, {user}\n\nTo view the schedule use the menu below or send the day's number\n\n(Monday is 1, Tuesday is 2, etc.)"
+        msg = lang.get('welcome')
+        return msg.format(user)
     else:
-        return 'Access denied'
+        return lang.get('deny')
 
 ## Reurn current day id
 def currentday():
@@ -34,7 +37,7 @@ def currentday():
 ## Return output message
 def message(id):
     if not(id in diary):
-        return "there's no schedule that day."
+        return lang.get('empty')
     else:
         output = ""
         for i in diary[id]:
@@ -45,7 +48,8 @@ def message(id):
 def output(action):
     if isinstance(action,(int)):
         if action > 7:
-            return f'Day number {action} does not exist in your diary'
+            msg = lang.get('notexist')
+            return msg.format(action)
         else:
             id = action - 1
             return message(id)
@@ -67,4 +71,4 @@ def exec(tid,action):
     if auth(tid):
         return output(action)
     else:
-        return 'Access denied'
+        return lang.get('deny')

@@ -3,11 +3,14 @@
 # Modules
 import pickle
 import os
+from translations import ENG as translate
+lang = translate.get("createpy")
 
 # Vars
 dict_dir = "/etc/dbot"
 file = "diary.pkl"
-days = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday" }
+# days = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday" }
+days = lang.get('days')
 
 # Functions
 
@@ -22,17 +25,19 @@ def check():
 
 ##Ask
 def ask(day):
-    ans = input(f"Add schedule for {day} (y/n): ")
+    msg = lang.get('add')
+    ans = input(msg.format(day))
     if ans == 'y':
         return True
     elif ans == 'n': 
         return False
     else:
-        print('Invalid input')
+        print(lang.get('inval'))
         ask(day)
 
 def lescount(nday):
-    count = input(f"Enter the number of lessons for {nday}: ")
+    msg = lang.get('number')
+    count = input(msg.format(nday))
     if count.isdigit():
         if int(count) > 0:
             return True, int(count)
@@ -52,11 +57,12 @@ def add(day):
         if count:
             for lessonid in range(count[1]):
                 lessonid = lessonid + 1
-                les = f"{lessonid}. " + input(f"Enter lesson number {lessonid}: ")
+                msg = lang.get('lesson')
+                les = f"{lessonid}. " + input(msg.format(lessonid))
                 list.append(les)
             return list
         else:
-            print('Invalid input')
+            print(lang.get('inval'))
             add(day)
     else:
         return False
