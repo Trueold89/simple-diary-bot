@@ -1,9 +1,14 @@
-#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 
 # Modules
 import datetime
-from env import diary
+import pickle
 from env import users
+from create import dict_dir, file
+
+# Load diary
+with open(f"{dict_dir}/{file}", "rb") as save:
+    diary = pickle.load(save)
 
 # Functions
 
@@ -16,7 +21,7 @@ def welcome(tid, user):
     if auth(tid):
         return f"Welcome, {user}\n\nTo view the schedule use the menu below or send the day's number\n\n(Monday is 1, Tuesday is 2, etc.)"
     else:
-        return 'Этот бот запривачен, гнида блять'
+        return 'Access denied'
 
 ## Reurn current day id
 def currentday():
@@ -28,11 +33,10 @@ def currentday():
 
 ## Return output message
 def message(id):
-    if id > 4:
-        return "There's no schedule today"
+    if not(id in diary):
+        return "there's no schedule that day."
     else:
-        days = { 0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 4: 'Friday' }
-        output = str(days.get(id)) + ':\n'
+        output = ""
         for i in diary[id]:
             output = output + i + '\n'
         return output
@@ -40,8 +44,8 @@ def message(id):
 ## Select message
 def output(action):
     if isinstance(action,(int)):
-        if action > 5:
-            return f'Day number {action} does not exist'
+        if action > 7:
+            return f'Day number {action} does not exist in your diary'
         else:
             id = action - 1
             return message(id)
@@ -49,10 +53,13 @@ def output(action):
         return message(currentday())
     if action == 'next':
         id = currentday()
-        if id < 3:
-            id = id + 1
-        else:
-            id = 0
+        while True:
+            if not(id in diary):
+                id = id + 1
+                if id > 6:
+                    id = 0
+            else:
+                break
         return message(id)
 
 ## Execution

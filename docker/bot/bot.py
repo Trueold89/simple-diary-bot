@@ -1,8 +1,9 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
 
 #Import
 import telebot
-import functions
+import messages
 from env import TOKEN
 
 #Setup bot
@@ -16,22 +17,21 @@ def welcome(message):
     next = telebot.types.KeyboardButton('Tomorrow')
     keyboard.add(today)
     keyboard.add(next)
-    diary_bot.reply_to(message, functions.welcome(message.from_user.id, message.from_user.first_name), reply_markup=keyboard)
+    diary_bot.reply_to(message, messages.welcome(message.from_user.id, message.from_user.first_name), reply_markup=keyboard)
 
 #Send functions
 @diary_bot.message_handler(func=lambda message: message.text == 'Today')
 def today(message):
-    diary_bot.send_message(message.chat.id, functions.exec(message.from_user.id, 'today'))
+    diary_bot.send_message(message.chat.id, messages.exec(message.from_user.id, 'today'))
 
 @diary_bot.message_handler(func=lambda message: message.text == 'Tomorrow')
 def next(message):
-    diary_bot.send_message(message.chat.id, functions.exec(message.from_user.id, 'next'))
+    diary_bot.send_message(message.chat.id, messages.exec(message.from_user.id, 'next'))
 
 @diary_bot.message_handler(func=lambda message: message.text.isdigit())
 def week(message):
     id = int(message.text)
-    diary_bot.send_message(message.chat.id, functions.exec(message.from_user.id, id))
+    diary_bot.send_message(message.chat.id, messages.exec(message.from_user.id, id))
     
 #Start bot
 diary_bot.polling()
-
