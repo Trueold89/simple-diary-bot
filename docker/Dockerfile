@@ -1,4 +1,5 @@
 FROM alpine:latest
-COPY bot /bot
+COPY bot /opt/sdb
 RUN apk update && apk add python3 py3-pip && pip install telebot
-ENTRYPOINT [ "/bot/bot.py" ]
+RUN ln -s /opt/sdb/bot.py /bin/dbot
+ENTRYPOINT [ "/bin/dbot" ]
